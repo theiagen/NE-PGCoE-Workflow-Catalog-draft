@@ -1,0 +1,29 @@
+Organism / taxon (C02 value),Group,General-purpose,NCBI Taxonomy ID,NCBI name,Notes
+SARS-CoV-2,Virus,N,2697049,Severe acute respiratory syndrome coronavirus 2,Taxonomy ID [verify]
+Influenza,Virus,N,11320; 11520,Influenza A virus; Influenza B virus,Covers influenza A and B. Taxonomy IDs [verify]
+RSV-A,Virus,N,208893,Human respiratory syncytial virus A,Taxonomy ID [verify]
+RSV-B,Virus,N,208895,Human respiratory syncytial virus B,Taxonomy ID [verify]
+Monkeypox virus (mpox),Virus,N,10244,Monkeypox virus,Taxonomy ID [verify]
+HIV,Virus,N,11676,Human immunodeficiency virus 1,TheiaCoV supports HIV-1. Taxonomy ID [verify]
+West Nile virus,Virus,N,11082,West Nile virus,Taxonomy ID [verify]
+Measles virus,Virus,N,11234,Measles morbillivirus,Taxonomy ID [verify]
+Mumps virus,Virus,N,11161,Mumps virus,Taxonomy ID [verify]; NCBI may list this under Mumps orthorubulavirus with a different ID
+Rubella virus,Virus,N,11041,Rubella virus,Taxonomy ID [verify]
+Bacterial genomes,Bacteria,Y,2,Bacteria,General bacterial row: characterization not specific to one taxon
+Acinetobacter baumannii,Bacteria,N,470,Acinetobacter baumannii,Taxonomy ID [verify]
+Escherichia spp.,Bacteria,N,561,Escherichia,Genus. Taxonomy ID [verify]
+Haemophilus influenzae,Bacteria,N,727,Haemophilus influenzae,Taxonomy ID [verify]
+Klebsiella spp.,Bacteria,N,570,Klebsiella,Genus. Taxonomy ID [verify]
+Legionella pneumophila,Bacteria,N,446,Legionella pneumophila,Taxonomy ID [verify]
+Listeria monocytogenes,Bacteria,N,1639,Listeria monocytogenes,Taxonomy ID [verify]
+Mycobacterium tuberculosis,Bacteria,N,1773,Mycobacterium tuberculosis,Taxonomy ID [verify]; consider M. tuberculosis complex if the workflow reports at complex level
+Neisseria spp.,Bacteria,N,482,Neisseria,Genus. Taxonomy ID [verify]
+Pseudomonas aeruginosa,Bacteria,N,287,Pseudomonas aeruginosa,Taxonomy ID [verify]
+Salmonella spp.,Bacteria,N,590,Salmonella,Genus. Taxonomy ID [verify]
+Shigella spp.,Bacteria,N,620,Shigella,Genus. Taxonomy ID [verify]
+Staphylococcus aureus,Bacteria,N,1280,Staphylococcus aureus,Taxonomy ID [verify]
+Streptococcus pneumoniae,Bacteria,N,1313,Streptococcus pneumoniae,Taxonomy ID [verify]
+Streptococcus pyogenes,Bacteria,N,1314,Streptococcus pyogenes,Taxonomy ID [verify]
+Vibrio spp.,Bacteria,N,662,Vibrio,Genus. Taxonomy ID [verify]
+Organism-agnostic,Any,Y,Not applicable,,"Metagenomic, reference-free"
+Organism-agnostic (user-supplied reference),Any,Y,Not applicable,,"Metagenomic, reference-guided; user supplies the reference genome"

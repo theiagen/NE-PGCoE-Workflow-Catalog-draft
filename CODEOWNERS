@@ -1,0 +1,5 @@
+# Curators who approve catalog changes. TODO: replace @ORG/... with real GitHub usernames or teams.
+*            @ORG/catalog-curators
+/data/       @ORG/catalog-curators
+/scripts/    @ORG/catalog-maintainers
+/site/       @ORG/catalog-maintainers

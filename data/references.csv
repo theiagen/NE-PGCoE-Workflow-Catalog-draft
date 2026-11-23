@@ -1,0 +1,12 @@
+Ref,Source,Type,Location,Used for
+R1,PGCoE Network - Bioinformatics Workflows,Primary (project source),https://pgcoe.github.io/workflows.html,Scope of workflows to annotate; target site for the catalog
+R2,"External: Annotated Pipeline Inventory, meeting notes 2026-10-27 (Theiagen Notion)",Primary (project source),"Theiagen Notion, NE-PGCOE-07 meeting notes","Requirements: tags/filters, attributes (pathogen, read input, local vs. cloud, limitations), 5-minute survey, WG review"
+R3,NE-PGCOE-07 | Annotated Pipeline Inventory initiative page (Theiagen Notion),Primary (project source),"Theiagen Notion, Initiatives database",Deliverables and timeline
+R4,Theiagen Public Health Bioinformatics (PHB) repository,Primary (workflow source),https://github.com/theiagen/public_health_bioinformatics,Example workflow values
+R5,NCBI Taxonomy,Secondary (external standard),https://www.ncbi.nlm.nih.gov/taxonomy,Candidate source for the controlled organism list
+R6,EDAM ontology,Secondary (external standard),https://edamontology.org,Candidate terms for analysis outputs
+R7,Public Health Alliance for Genomic Epidemiology (PHA4GE),Secondary (community guidance),https://pha4ge.org,Candidate terms and public health bioinformatics conventions
+R8,"TheiaCoV Workflow Series documentation, PHB v4.3.x",Primary (workflow source),https://theiagen.github.io/public_health_bioinformatics/latest/workflows/genomic_characterization/theiacov/,"TheiaCoV workflows, supported organisms, inputs, parameters and caveats (accessed 2026-11-05)"
+R9,PHB documentation: Getting started on the command line,Primary (workflow source),https://theiagen.github.io/public_health_bioinformatics/latest/getting_started/commandline/,Local execution with miniwdl and Docker (accessed 2026-11-05)
+R10,"TheiaProk Workflow Series documentation, PHB v4.3.x",Primary (workflow source),https://theiagen.github.io/public_health_bioinformatics/latest/workflows/genomic_characterization/theiaprok/,"TheiaProk workflows, inputs, general and taxon-specific tools, caveats (accessed 2026-11-05). Taxon-to-tool mapping partly from tool parameter names; marked [verify]."
+R11,"TheiaMeta documentation, PHB v4.3.x",Primary (workflow source),https://theiagen.github.io/public_health_bioinformatics/latest/workflows/genomic_characterization/theiameta/,"TheiaMeta_Illumina_PE inputs, reference-free and reference-guided modes, tools (accessed 2026-11-05)"

@@ -1,0 +1,29 @@
+Execution environment (W06),Sample type (C03),Library strategy (C04),Sequencing platform (C05),Input data type (C06),Analysis outputs (C07),Internet required at runtime (W07),Organism / taxon (C02)
+Terra,Isolate (pure culture),Shotgun WGS,Illumina,Paired-end short read,QC,Yes,SARS-CoV-2
+Local workstation (command line),Primary clinical specimen,Tiled amplicon,Oxford Nanopore (ONT),Single-end short read,De novo assembly,No (some optional features incompatible),Influenza
+Local workstation (GUI),Wastewater / environmental,Hybrid capture / targeted panel,Clear Labs,Long read,Consensus genome,No,RSV-A
+HPC (SLURM or other scheduler),Mixed / metagenomic,Single-target amplicon (16S / ITS),PacBio,Hybrid (short + long),Species identification,,RSV-B
+AWS,Not applicable (downstream analysis),Shotgun metagenomic,Ion Torrent,Assembly / consensus FASTA,MLST,,Monkeypox virus (mpox)
+Google Cloud (not Terra),,Metatranscriptomic,Element,Multi-sequence set or alignment (FASTA),cgMLST / wgMLST,,HIV
+Azure,,Not applicable (downstream analysis),MGI / Complete Genomics,Phylogenetic tree,Subtype / serotype / other typing scheme,,West Nile virus
+Galaxy,,,Not applicable (downstream analysis),Metadata / epidemiological tables,Variant calling,,Measles virus
+Web browser (no install),,,,Typing or analysis results (tabular),Within-host (intra-host) variant calling,,Mumps virus
+,,,,,Lineage / clade assignment,,Rubella virus
+,,,,,Variant / lineage abundance (mixed samples),,Bacterial genomes
+,,,,,AMR genotype,,Acinetobacter baumannii
+,,,,,Virulence genes,,Escherichia spp.
+,,,,,Stress response genes,,Haemophilus influenzae
+,,,,,Plasmid / mobile genetic element detection,,Klebsiella spp.
+,,,,,Drug-resistance prediction,,Legionella pneumophila
+,,,,,Phylogeny / SNP distance,,Listeria monocytogenes
+,,,,,Bayesian phylogenetics / phylodynamics,,Mycobacterium tuberculosis
+,,,,,Genomic cluster detection / monitoring,,Neisseria spp.
+,,,,,Transmission inference,,Pseudomonas aeruginosa
+,,,,,Phylogeny-trait association,,Salmonella spp.
+,,,,,Sequence subsampling / sampling design,,Shigella spp.
+,,,,,Data integration / linkage,,Staphylococcus aureus
+,,,,,Metagenomic classification,,Streptococcus pneumoniae
+"All lists are multi-select except Internet required at runtime (W07), which is single-select. Organism / taxon (C02) is pulled automatically from the Organisms tab; edit it there.",,,,,,,Streptococcus pyogenes
+,,,,,,,Vibrio spp.
+,,,,,,,Organism-agnostic
+,,,,,,,Organism-agnostic (user-supplied reference)

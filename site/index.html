@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NE-PGCoE Workflow Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a navy band holds a plain-English "sentence" filter; results are
+   scannable cards, color-coded by organism group; details open in a side panel. */
+:root {
+  --navy: #253B4D;      /* Theiagen background blue */
+  --blue: #116EB7;      /* Theiagen logo blue: virus + interactive */
+  --green: #1DA74A;     /* Theiagen logo green: bacteria + strengths */
+  --ink: #262626;       /* Theiagen darkest */
+  --paper: #F3F6F8;
+  --surface: #FFFFFF;
+  --line: #DCE3E9;
+  --muted: #5B6B78;
+  --amber: #A65F00;     /* limitations, draft */
+  --amber-bg: #FFF4E0;
+  --fungus: #7A4FA8;
+  --chip-bg: #EAF2FA;
+  --chip-on: var(--blue);
+  --shadow: 0 1px 2px rgba(37,59,77,.06), 0 4px 16px rgba(37,59,77,.06);
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131C24; --surface: #1B2731; --line: #2C3B48; --ink: #E8EEF2; --muted: #9DB0BF;
+    --blue: #4EA3E6; --green: #3CC56A; --amber: #F0A841; --amber-bg: #3A2A12; --fungus: #B48EE0;
+    --chip-bg: #22374A; --navy: #0F1820; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131C24; --surface: #1B2731; --line: #2C3B48; --ink: #E8EEF2; --muted: #9DB0BF;
+  --blue: #4EA3E6; --green: #3CC56A; --amber: #F0A841; --amber-bg: #3A2A12; --fungus: #B48EE0;
+  --chip-bg: #22374A; --navy: #0F1820; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font-body); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+a { color: var(--blue); }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+.draftbar { background: var(--amber-bg); color: var(--amber); font-size: 14px; font-weight: 600; text-align: center; padding: 8px 16px; }
+
+/* Header band */
+header.band {
+  background: #253B4D;
+  background-image: radial-gradient(rgba(255,255,255,.07) 1.2px, transparent 1.3px);
+  background-size: 18px 18px;
+  color: #fff; padding: 40px 0 88px;
+}
+:root[data-theme="dark"] header.band { background-color: #0F1820; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #9FD3B0; font-weight: 600; margin-bottom: 10px; }
+header h1 { font-size: clamp(28px, 4.4vw, 44px); font-weight: 800; max-width: 22ch; }
+header p.lead { font-size: 18px; color: #D5E2EC; margin: 12px 0 0; max-width: 60ch; }
+
+/* Finder card overlapping the band */
+.finder { background: var(--surface); border-radius: 16px; box-shadow: 0 8px 30px rgba(15,24,32,.18); padding: 24px; margin-top: -60px; position: relative; display: grid; gap: 20px; }
+.sentence { font-size: clamp(18px, 2.2vw, 22px); font-family: var(--font-display); font-weight: 600; line-height: 2.1; }
+.sentence label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.pill-select {
+  appearance: none; -webkit-appearance: none; border: 2px solid var(--blue); background: var(--chip-bg);
+  color: var(--blue); font-family: var(--font-display); font-weight: 700; font-size: inherit;
+  border-radius: 999px; padding: 2px 34px 2px 14px; cursor: pointer; max-width: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23116EB7' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+.pill-select.is-set { background-color: var(--blue); color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E"); }
+.search { display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 14px; background: var(--paper); }
+.search svg { flex: none; color: var(--muted); }
+.search input { border: 0; background: transparent; width: 100%; font-size: 16px; outline: none; }
+.search:focus-within { border-color: var(--blue); }
+
+.needs h2 { font-size: 15px; font-family: var(--font-body); font-weight: 700; margin-bottom: 10px; }
+.needs h2 span { font-weight: 400; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 14px; cursor: pointer; transition: background .15s, border-color .15s; }
+.chip:hover { border-color: var(--blue); }
+.chip[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.chip[aria-pressed="true"]::before { content: "✓ "; }
+
+details.more summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--blue); width: max-content; }
+.more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 12px; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.field select { width: 100%; padding: 8px 10px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--surface); }
+
+/* Results */
+.results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 32px 0 16px; }
+.results-head h2 { font-size: 22px; }
+.active { display: flex; flex-wrap: wrap; gap: 6px; }
+.active button { border: 0; background: var(--chip-bg); color: var(--blue); border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.active button span { margin-left: 4px; }
+.active button.clear { margin-left: 4px; background: none; color: var(--muted); font-weight: 400; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font-size: 14px; }
+.legend { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-left: auto; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; padding-bottom: 32px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; overflow: hidden; text-align: left; padding: 0; cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(37,59,77,.08), 0 10px 28px rgba(37,59,77,.12); }
+.stripe { height: 6px; display: flex; }
+.stripe span { flex: 1; }
+.card-body { padding: 18px 20px; display: grid; gap: 12px; flex: 1; align-content: start; }
+.dev { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.card h3 { font-size: 20px; font-weight: 700; overflow-wrap: anywhere; }
+.card p { margin: 0; color: var(--muted); font-size: 15px; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; margin: 0; }
+.facts dt { color: var(--muted); font-weight: 600; }
+.facts dd { margin: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 13px; border-radius: 6px; padding: 2px 8px; background: var(--paper); border: 1px solid var(--line); }
+.tag.more { color: var(--muted); }
+.card-foot { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); font-size: 13px; }
+.card-foot .go { margin-left: auto; color: var(--blue); font-weight: 700; }
+.badge { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
+.badge.draft { background: var(--amber-bg); color: var(--amber); }
+.badge.ev-ok { background: rgba(29,167,74,.12); color: var(--green); }
+.badge.ev-pending { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+
+.empty { background: var(--surface); border: 1.5px dashed var(--line); border-radius: 14px; padding: 32px; text-align: center; }
+.empty h3 { font-size: 20px; margin-bottom: 8px; }
+.empty .chips { justify-content: center; margin-top: 14px; }
+
+/* Detail panel */
+.scrim { position: fixed; inset: 0; background: rgba(15,24,32,.45); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 10; }
+.scrim.open { opacity: 1; pointer-events: auto; }
+.panel {
+  position: fixed; top: 0; right: 0; height: 100%; width: min(720px, 100%); background: var(--surface);
+  z-index: 11; transform: translateX(100%); transition: transform .25s ease; overflow-y: auto;
+  box-shadow: -10px 0 40px rgba(15,24,32,.25); display: flex; flex-direction: column;
+}
+.panel.open { transform: none; }
+.panel-head { padding: 26px 28px 22px; color: #fff; background: #253B4D; position: sticky; top: 0; z-index: 1; }
+.panel-head .dev { color: #B9CCDA; }
+.panel-head h2 { font-size: 28px; margin: 6px 0 8px; overflow-wrap: anywhere; }
+.panel-head p { margin: 0; color: #D5E2EC; }
+.close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,.12); border: 0; color: #fff; width: 38px; height: 38px; border-radius: 50%; font-size: 22px; cursor: pointer; }
+.close:hover { background: rgba(255,255,255,.22); }
+.panel-body { padding: 24px 28px 40px; display: grid; gap: 26px; }
+.sec h3 { font-size: 13px; font-family: var(--font-body); font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.sec ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.quick div { background: var(--paper); border-radius: 10px; padding: 10px 12px; }
+.quick b { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
+.io { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch; }
+.io > div { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.io .arrow { align-self: center; font-size: 22px; color: var(--blue); border: 0; padding: 0; }
+.io h4 { margin: 0 0 6px; font-size: 14px; }
+.io ul { padding-left: 18px; margin: 0; font-size: 15px; }
+.sl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sl > div { border-radius: 10px; padding: 14px 16px; }
+.sl .s { background: rgba(29,167,74,.08); border-left: 4px solid var(--green); }
+.sl .l { background: var(--amber-bg); border-left: 4px solid var(--amber); }
+.sl h4 { margin: 0 0 8px; font-size: 15px; }
+.sl ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 15px; }
+.sl .s li::before { content: "✓"; color: var(--green); font-weight: 700; margin-right: 8px; }
+.sl .l li::before { content: "!"; color: var(--amber); font-weight: 800; margin-right: 10px; }
+.ev { display: grid; gap: 8px; }
+.ev div { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+.ev .lesson { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.links a { text-decoration: none; font-weight: 600; border: 1.5px solid var(--blue); border-radius: 8px; padding: 7px 14px; }
+.links a:first-child { background: var(--blue); color: #fff; }
+.meta { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+footer .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin-bottom: 18px; color: var(--ink); }
+footer .cta strong { font-family: var(--font-display); font-size: 18px; }
+footer .cta a { margin-left: auto; background: var(--green); color: #fff; text-decoration: none; font-weight: 700; padding: 9px 16px; border-radius: 8px; }
+
+@media (max-width: 640px) {
+  .finder { padding: 18px; }
+  .io { grid-template-columns: 1fr; }
+  .io .arrow { transform: rotate(90deg); justify-self: center; }
+  .sl { grid-template-columns: 1fr; }
+  .legend { margin-left: 0; }
+  footer .cta a { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+.badge.net { background: var(--chip-bg); color: var(--blue); }
+.badge.ok { background: rgba(29,167,74,.12); color: var(--green); }
+.tag.hit { border-color: var(--blue); color: var(--blue); font-weight: 600; }
+.caps { display: grid; gap: 8px; }
+.cap { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.cap summary { list-style: none; cursor: pointer; padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cap summary::-webkit-details-marker { display: none; }
+.cap summary::before { content: "\25B8"; color: var(--muted); transition: transform .15s; }
+.cap[open] summary::before { transform: rotate(90deg); }
+.cap summary .grp { width: 9px; height: 9px; border-radius: 3px; }
+.cap summary .badge { margin-left: auto; }
+.cap summary .badge + .badge { margin-left: 0; }
+.cap.hit { border-color: var(--blue); }
+.cap-body { padding: 2px 16px 16px 36px; display: grid; gap: 12px; font-size: 15px; }
+.cap-body .row b { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.lim { background: var(--amber-bg); border-left: 4px solid var(--amber); border-radius: 8px; padding: 10px 12px; }
+.lim.none { background: var(--paper); border-left-color: var(--line); color: var(--muted); }
+sup a { text-decoration: none; font-weight: 700; font-size: 11px; }
+.refs { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; }
+.refs b { display: inline-block; min-width: 34px; }
+.refs span { color: var(--muted); }
+.field .check { display: flex; gap: 8px; align-items: center; font-size: 14px; padding-top: 6px; color: var(--ink); font-weight: 500; }
+.field .check input { width: 18px; height: 18px; accent-color: var(--blue); }
+</style>
+</head>
+<body>
+<div class="draftbar" role="note" id="draftbar">Working draft</div>
+
+<header class="band">
+  <div class="wrap">
+    <div class="eyebrow">Northeast Pathogen Genomics Center of Excellence</div>
+    <h1>Bioinformatics Workflow Catalog</h1>
+    <p class="lead">Find open-source workflows that fit your pathogen, your sequencing data and the way your lab computes.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="finder" aria-label="Find a workflow">
+    <div class="sentence">
+      I have
+      <label for="f-pathogen">Pathogen</label><select id="f-pathogen" class="pill-select"></select>
+      data from
+      <label for="f-platform">Sequencing platform</label><select id="f-platform" class="pill-select"></select>
+      and want to run it
+      <label for="f-exec">Where to run</label><select id="f-exec" class="pill-select"></select>.
+    </div>
+
+    <div class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <label for="f-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search</label>
+      <input id="f-q" type="search" placeholder="Search by workflow name, tool or keyword (e.g., AMRFinderPlus, Pangolin)" autocomplete="off">
+    </div>
+
+    <div class="needs">
+      <h2>What do you need it to do? <span>Pick any; workflows must do all of them.</span></h2>
+      <div class="chips" id="f-analyses"></div>
+    </div>
+
+    <details class="more">
+      <summary>More filters</summary>
+      <div class="more-grid">
+        <div class="field"><label for="f-sample">Sample type</label><select id="f-sample"></select></div>
+        <div class="field"><label for="f-library">Library strategy</label><select id="f-library"></select></div>
+        <div class="field"><label for="f-input">Input data type</label><select id="f-input"></select></div>
+        <div class="field"><label for="f-dev">Developer</label><select id="f-dev"></select></div>
+        <div class="field"><label>Network</label><label class="check"><input type="checkbox" id="f-offline"> Core analysis runs offline</label></div>
+      </div>
+    </details>
+  </section>
+
+  <div class="results-head">
+    <h2 id="count" aria-live="polite"></h2>
+    <div class="active" id="active"></div>
+    <div class="legend" aria-label="Card color key">
+      <span><i style="background:var(--blue)"></i>Virus</span>
+      <span><i style="background:var(--green)"></i>Bacteria</span>
+      <span><i style="background:var(--fungus)"></i>Any organism</span>
+    </div>
+  </div>
+
+  <section class="grid" id="grid" aria-label="Workflows"></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cta">
+      <div><strong>Don't see your workflow?</strong><br>Developers can add a workflow through the short contributor survey.</div>
+      <a href="#" id="submit-link">Submit a workflow</a>
+    </div>
+    <p>Listing in this catalog is not an endorsement. Details are summarized from developer documentation; review the source documentation and validate any workflow in your own laboratory before clinical or public health use.</p>
+    <p id="built"></p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="p-title" aria-hidden="true" tabindex="-1"></aside>
+
+<script src="catalog.js"></script>
+<script>
+(function () {
+  const DATA = window.CATALOG;
+  const W = DATA.workflows;
+  const REFS = DATA.references || {};
+  const V = DATA.vocab || {};
+  W.forEach((w) => { w.family = w.name.split("_")[0]; w.capabilities.forEach((c) => (c.wf = w)); });
+  const ROWS = W.flatMap((w) => w.capabilities);
+
+  const NA = "Not applicable (downstream analysis)";
+  const GROUP_COLOR = { Virus: "var(--blue)", Bacteria: "var(--green)", Fungus: "var(--fungus)", Any: "var(--fungus)", Other: "var(--fungus)" };
+  const GROUP_PLURAL = { Virus: "Viruses", Bacteria: "Bacteria", Fungus: "Fungi", Parasite: "Parasites", Any: "Any organism" };
+  const WHERE = {
+    cloud: { label: "in the cloud", envs: ["Terra", "AWS", "Google Cloud (not Terra)", "Azure"] },
+    local: { label: "on my own computer or server", envs: ["Local workstation (command line)", "HPC (SLURM or other scheduler)"] },
+    gui:   { label: "with point-and-click tools", envs: ["Local workstation (GUI)", "Galaxy", "Web browser (no install)"] },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const uniq = (a) => [...new Set(a)];
+  const inOrder = (vals, list) => (list && list.length ? list.filter((v) => vals.includes(v)).concat(vals.filter((v) => !list.includes(v))) : vals);
+  const platformLabel = (p) => (p === NA ? "assembled genomes (FASTA)" : p);
+  const offlineOk = (w) => /^no/i.test(w.internet);
+  const netLabel = (w) => /^no \(/i.test(w.internet) ? "Runs offline; some optional features need internet" : /^no/i.test(w.internet) ? "Runs fully offline" : "Needs internet while running";
+
+  const state = { pathogen: "", platform: "", exec: "", q: "", analyses: new Set(), sample: "", library: "", input: "", dev: "", offline: false };
+
+  // ----- Controls, built from the data -----
+  function fillSelect(sel, anyLabel, options) {
+    sel.innerHTML = `<option value="">${esc(anyLabel)}</option>` + options.map((o) =>
+      o.group ? `<optgroup label="${esc(o.group)}">${o.items.map((i) => `<option value="${esc(i.value)}">${esc(i.label)}</option>`).join("")}</optgroup>`
+              : `<option value="${esc(o.value)}">${esc(o.label)}</option>`).join("");
+  }
+  const groupOf = (org) => (ROWS.find((r) => r.organism === org) || {}).group;
+  const groups = uniq(ROWS.map((r) => r.group));
+  fillSelect($("f-pathogen"), "any pathogen", ["Virus", "Bacteria", "Fungus", "Parasite"].filter((g) => groups.includes(g)).map((g) => ({
+    group: GROUP_PLURAL[g],
+    items: [{ value: "group:" + g, label: g === "Bacteria" ? "any bacterium" : `any ${g.toLowerCase()}` }]
+      .concat(uniq(ROWS.filter((r) => r.group === g && !r.general).map((r) => r.organism)).sort().map((o) => ({ value: "p:" + o, label: o }))),
+  })).concat(groups.includes("Any") ? [{ group: "Other", items: [{ value: "other", label: "a mixed or metagenomic sample" }] }] : []));
+  fillSelect($("f-platform"), "any platform", inOrder(uniq(ROWS.flatMap((r) => r.platforms)), V["Sequencing platform"]).map((p) => ({ value: p, label: platformLabel(p) })));
+  fillSelect($("f-exec"), "anywhere", Object.entries(WHERE).filter(([, v]) => W.some((w) => w.execution.some((e) => v.envs.includes(e)))).map(([k, v]) => ({ value: k, label: v.label })));
+  fillSelect($("f-sample"), "Any sample type", inOrder(uniq(ROWS.flatMap((r) => r.sample_types)), V["Sample type"]).map((v) => ({ value: v, label: v })));
+  fillSelect($("f-library"), "Any library strategy", inOrder(uniq(ROWS.flatMap((r) => r.library)), V["Library strategy"]).map((v) => ({ value: v, label: v })));
+  fillSelect($("f-input"), "Any input data type", inOrder(uniq(ROWS.flatMap((r) => r.inputs)), V["Input data type"]).map((v) => ({ value: v, label: v })));
+  fillSelect($("f-dev"), "Any developer", uniq(W.map((w) => w.developer)).sort().map((v) => ({ value: v, label: v })));
+  $("f-analyses").innerHTML = inOrder(uniq(ROWS.flatMap((r) => r.outputs)), V["Analysis outputs"])
+    .map((a) => `<button type="button" class="chip" aria-pressed="false" data-a="${esc(a)}">${esc(a)}</button>`).join("");
+
+  // Size each sentence pill to its chosen option
+  const measure = document.createElement("canvas").getContext("2d");
+  function fit(sel) {
+    if (!sel.classList.contains("pill-select")) return;
+    measure.font = getComputedStyle(sel).font;
+    sel.style.width = Math.ceil(measure.measureText(sel.options[sel.selectedIndex].text).width + 54) + "px";
+  }
+  const fitAll = () => document.querySelectorAll(".pill-select").forEach(fit);
+  fitAll(); if (document.fonts) document.fonts.ready.then(fitAll);
+
+  // ----- Matching: a workflow shows when one of its organism rows meets every row-level filter -----
+  function orgMatch(r) {
+    const s = state.pathogen;
+    if (!s) return true;
+    if (s.startsWith("group:")) return r.group === s.slice(6);
+    if (s === "other") return r.group === "Any" || r.group === "Other";
+    const org = s.slice(2);
+    return r.organism === org || (r.general && r.group === groupOf(org));
+  }
+  function rowMatch(r) {
+    if (!orgMatch(r)) return false;
+    if (state.platform && !r.platforms.includes(state.platform)) return false;
+    if (state.sample && !r.sample_types.includes(state.sample)) return false;
+    if (state.library && !r.library.includes(state.library)) return false;
+    if (state.input && !r.inputs.includes(state.input)) return false;
+    for (const a of state.analyses) if (!r.outputs.includes(a)) return false;
+    return true;
+  }
+  function wfMatch(w) {
+    if (state.exec && !w.execution.some((e) => WHERE[state.exec].envs.includes(e))) return false;
+    if (state.dev && w.developer !== state.dev) return false;
+    if (state.offline && !offlineOk(w)) return false;
+    if (state.q) {
+      const hay = [w.name, w.developer, ...w.capabilities.flatMap((c) => [c.organism, c.tools, ...c.outputs, ...c.platforms])].join(" ").toLowerCase();
+      if (!state.q.toLowerCase().split(/\s+/).every((t) => hay.includes(t))) return false;
+    }
+    return true;
+  }
+  const hits = (w) => w.capabilities.filter(rowMatch);
+  const rowFiltered = () => state.pathogen || state.platform || state.sample || state.library || state.input || state.analyses.size;
+
+  // ----- Active filters -----
+  function activeFilters() {
+    const out = [];
+    const label = (id) => $(id).options[$(id).selectedIndex].text;
+    if (state.pathogen) out.push({ key: "pathogen", text: label("f-pathogen") });
+    if (state.platform) out.push({ key: "platform", text: label("f-platform") });
+    if (state.exec) out.push({ key: "exec", text: "Runs " + label("f-exec") });
+    if (state.sample) out.push({ key: "sample", text: state.sample });
+    if (state.library) out.push({ key: "library", text: state.library });
+    if (state.input) out.push({ key: "input", text: state.input });
+    if (state.dev) out.push({ key: "dev", text: state.dev });
+    if (state.offline) out.push({ key: "offline", text: "Runs offline" });
+    for (const a of state.analyses) out.push({ key: "a:" + a, text: a });
+    if (state.q) out.push({ key: "q", text: `“${state.q}”` });
+    return out;
+  }
+  const SELECTS = { pathogen: "f-pathogen", platform: "f-platform", exec: "f-exec", sample: "f-sample", library: "f-library", input: "f-input", dev: "f-dev" };
+  function syncControls() {
+    for (const [k, id] of Object.entries(SELECTS)) { $(id).value = state[k]; $(id).classList.toggle("is-set", !!state[k]); fit($(id)); }
+    $("f-q").value = state.q;
+    $("f-offline").checked = state.offline;
+    document.querySelectorAll("#f-analyses .chip").forEach((c) => c.setAttribute("aria-pressed", state.analyses.has(c.dataset.a)));
+  }
+  function removeFilter(key) {
+    if (key.startsWith("a:")) state.analyses.delete(key.slice(2));
+    else if (key === "offline") state.offline = false;
+    else state[key] = "";
+    syncControls(); render();
+  }
+
+  // ----- Cards -----
+  function stripe(w) { return `<div class="stripe">${uniq(w.capabilities.map((c) => c.group)).map((g) => `<span style="background:${GROUP_COLOR[g] || GROUP_COLOR.Other}"></span>`).join("")}</div>`; }
+  const dataLine = (w) => uniq(w.capabilities.flatMap((c) => c.platforms.map(platformLabel))).join(", ") + " · " + uniq(w.capabilities.flatMap((c) => c.inputs)).join(", ");
+  const netShort = (w) => /^no \(/i.test(w.internet) ? "Mostly offline" : /^no/i.test(w.internet) ? "Fully offline" : "Needs internet";
+  const netBadge = (w) => `<span class="badge ${offlineOk(w) ? "ok" : "net"}" title="${esc(netLabel(w))}">${esc(netShort(w))}</span>`;
+
+  function card(w) {
+    const h = hits(w);
+    const hitOrgs = new Set(h.map((r) => r.organism));
+    const orgs = uniq(w.capabilities.map((c) => c.organism)).sort((a, b) => hitOrgs.has(b) - hitOrgs.has(a));
+    const shown = orgs.slice(0, 4), extra = orgs.length - shown.length;
+    const filtered = rowFiltered();
+    return `<button type="button" class="card" data-id="${esc(w.slug)}" aria-label="${esc(w.name)} by ${esc(w.developer)}: view details">
+      ${stripe(w)}
+      <div class="card-body">
+        <div class="dev">${esc(w.developer)} · ${esc(w.family)}</div>
+        <h3>${esc(w.name)}</h3>
+        <dl class="facts">
+          <dt>Data</dt><dd>${esc(dataLine(w))}</dd>
+          <dt>Assay</dt><dd>${esc(uniq(w.capabilities.flatMap((c) => c.library)).join(", "))}</dd>
+          <dt>Runs on</dt><dd>${esc(w.execution.join(", "))}</dd>
+        </dl>
+        <div class="tags">${shown.map((t) => `<span class="tag ${filtered && hitOrgs.has(t) ? "hit" : ""}">${esc(t)}</span>`).join("")}${extra > 0 ? `<span class="tag more">+${extra} more</span>` : ""}</div>
+      </div>
+      <div class="card-foot">${netBadge(w)}${w.pending ? `<span class="badge draft">${w.pending} to verify</span>` : ""}<span class="go">Details →</span></div>
+    </button>`;
+  }
+
+  function render() {
+    const list = W.filter((w) => wfMatch(w) && hits(w).length);
+    const act = activeFilters();
+    $("count").textContent = `${list.length} workflow${list.length === 1 ? "" : "s"}${act.length ? " match" : ""}`;
+    $("active").innerHTML = act.map((f) => `<button type="button" data-k="${esc(f.key)}" aria-label="Remove filter ${esc(f.text)}">${esc(f.text)}<span aria-hidden="true">×</span></button>`).join("")
+      + (act.length ? `<button type="button" class="clear" data-k="__all">Clear all</button>` : "");
+    $("grid").innerHTML = list.length ? list.map(card).join("") : `
+      <div class="empty" style="grid-column:1/-1">
+        <h3>No workflows match all of these filters</h3>
+        <p>Try removing one:</p>
+        <div class="chips">${act.map((f) => `<button type="button" class="chip" data-k="${esc(f.key)}">Remove “${esc(f.text)}”</button>`).join("")}</div>
+      </div>`;
+  }
+
+  // ----- Detail panel -----
+  function fmtText(text) {
+    let s = esc(text || "");
+    s = s.replace(/\s*\[verify\]/gi, "").replace(/\[to be completed\]\.?/gi, "").trim();
+    s = s.replace(/\[(R\d+)\]/g, (m, r) => (REFS[r] ? `<sup><a href="#ref-${r}" title="${esc(REFS[r].source)}">${r}</a></sup>` : m));
+    return s;
+  }
+  function list(items) { return `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`; }
+  function detail(w) {
+    const filtered = rowFiltered();
+    const h = new Set(hits(w).map((r) => r.id));
+    const caps = [...w.capabilities].sort((a, b) => (h.has(b.id) - h.has(a.id)) || (a.general - b.general));
+    const cited = new Set();
+    const nHit = caps.filter((c) => h.has(c.id)).length;
+    const capHtml = caps.map((c, i) => {
+      (c.limitations.match(/R\d+/g) || []).forEach((r) => cited.add(r));
+      const isHit = filtered && h.has(c.id);
+      const open = (isHit && nHit <= 3) || (!filtered && i === 0);
+      const lim = fmtText(c.limitations);
+      const tools = fmtText(c.tools);
+      return `<details class="cap ${isHit ? "hit" : ""}" ${open ? "open" : ""}>
+        <summary><span class="grp" style="background:${GROUP_COLOR[c.group] || GROUP_COLOR.Other}"></span><strong>${esc(c.organism)}</strong>
+          ${isHit ? `<span class="badge net">Matches your filters</span>` : ""}${c.pending ? `<span class="badge draft">Being verified</span>` : ""}</summary>
+        <div class="cap-body">
+          <div class="row"><b>What it produces</b><div class="tags">${c.outputs.map((o) => `<span class="tag ${state.analyses.has(o) ? "hit" : ""}">${esc(o)}</span>`).join("")}</div></div>
+          <div class="row"><b>Sample types</b>${esc(c.sample_types.join(", "))}</div>
+          <div class="row"><b>Library strategies</b>${esc(c.library.join(", "))}</div>
+          ${tools ? `<div class="row"><b>Main tools</b>${tools}</div>` : ""}
+          <div class="row"><b>Known limitations</b><div class="lim ${lim ? "" : "none"}">${lim || "Not yet documented."}</div></div>
+        </div></details>`;
+    }).join("");
+    const refList = [...cited].filter((r) => REFS[r]).sort((a, b) => +a.slice(1) - +b.slice(1));
+    const allOutputs = inOrder(uniq(w.capabilities.flatMap((c) => c.outputs)), V["Analysis outputs"]);
+    return `
+      <div class="panel-head">
+        <button type="button" class="close" id="close" aria-label="Close details">×</button>
+        <div class="dev">${esc(w.developer)} · ${esc(w.family)}</div>
+        <h2 id="p-title">${esc(w.name)}</h2>
+        <p>${esc(netLabel(w))} · ${w.capabilities.length} organism option${w.capabilities.length === 1 ? "" : "s"}</p>
+      </div>
+      ${stripe(w)}
+      <div class="panel-body">
+        ${w.pending ? `<div class="badge draft" style="justify-self:start;font-size:13px;padding:5px 12px">Draft entry: ${w.pending} detail${w.pending === 1 ? " is" : "s are"} still being verified</div>` : ""}
+        <section class="sec"><h3>At a glance</h3>
+          <div class="quick">
+            <div><b>Sequencing data</b>${esc(dataLine(w))}</div>
+            <div><b>Runs on</b>${esc(w.execution.join(", "))}</div>
+            <div><b>Internet while running</b>${esc(netLabel(w))}</div>
+            <div><b>Sample types</b>${esc(uniq(w.capabilities.flatMap((c) => c.sample_types)).join(", "))}</div>
+            <div><b>Library strategies</b>${esc(uniq(w.capabilities.flatMap((c) => c.library)).join(", "))}</div>
+            <div><b>Developer</b>${esc(w.developer)}</div>
+          </div>
+        </section>
+        <section class="sec"><h3>What it does</h3>
+          <div class="tags">${allOutputs.map((a) => `<span class="tag ${state.analyses.has(a) ? "hit" : ""}">${esc(a)}</span>`).join("")}</div>
+        </section>
+        <section class="sec"><h3>By organism</h3>
+          <p style="margin:-4px 0 10px;font-size:14px;color:var(--muted)">${filtered ? "Rows that match your filters are listed first. " : ""}Open a row for outputs, tools and known limitations.</p>
+          <div class="caps">${capHtml}</div>
+        </section>
+        <section class="sec"><h3>Links</h3>
+          <div class="links">${w.documentation ? `<a href="${esc(w.documentation)}" target="_blank" rel="noopener">Documentation ↗</a>` : ""}${w.repository ? `<a href="${esc(w.repository)}" target="_blank" rel="noopener">Source code ↗</a>` : ""}</div>
+        </section>
+        ${refList.length ? `<section class="sec"><h3>Sources</h3><ul class="refs">${refList.map((r) => `<li id="ref-${r}"><b>${r}</b> ${REFS[r].url ? `<a href="${esc(REFS[r].url)}" target="_blank" rel="noopener">${esc(REFS[r].source)}</a>` : esc(REFS[r].source)} <span>· ${esc(REFS[r].type)}</span></li>`).join("")}</ul></section>` : ""}
+      </div>`;
+  }
+
+  let lastFocus = null;
+  function openPanel(slug) {
+    const w = W.find((x) => x.slug === slug);
+    if (!w) return closePanel(false);
+    lastFocus = document.activeElement;
+    $("panel").innerHTML = detail(w);
+    $("panel").scrollTop = 0;
+    $("panel").classList.add("open"); $("scrim").classList.add("open");
+    $("panel").setAttribute("aria-hidden", "false");
+    $("close").addEventListener("click", () => closePanel(true));
+    $("close").focus();
+  }
+  function closePanel(clearHash) {
+    $("panel").classList.remove("open"); $("scrim").classList.remove("open");
+    $("panel").setAttribute("aria-hidden", "true");
+    if (clearHash && location.hash) history.replaceState(null, "", location.pathname + location.search);
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+  }
+  function route() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id.startsWith("ref-")) return;
+    id ? openPanel(id) : closePanel(false);
+  }
+
+  // ----- Events -----
+  for (const [key, id] of Object.entries(SELECTS)) {
+    $(id).addEventListener("change", (e) => { state[key] = e.target.value; e.target.classList.toggle("is-set", !!state[key]); fit(e.target); render(); });
+  }
+  $("f-offline").addEventListener("change", (e) => { state.offline = e.target.checked; render(); });
+  $("f-q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
+  $("f-analyses").addEventListener("click", (e) => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    const a = b.dataset.a; state.analyses.has(a) ? state.analyses.delete(a) : state.analyses.add(a);
+    b.setAttribute("aria-pressed", state.analyses.has(a)); render();
+  });
+  document.addEventListener("click", (e) => {
+    const k = e.target.closest("[data-k]");
+    if (k) {
+      if (k.dataset.k === "__all") { Object.assign(state, { pathogen: "", platform: "", exec: "", q: "", sample: "", library: "", input: "", dev: "", offline: false }); state.analyses.clear(); syncControls(); render(); }
+      else removeFilter(k.dataset.k);
+      return;
+    }
+    const c = e.target.closest(".card");
+    if (c) location.hash = c.dataset.id;
+  });
+  $("scrim").addEventListener("click", () => closePanel(true));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("panel").classList.contains("open")) closePanel(true); });
+  window.addEventListener("hashchange", route);
+  $("submit-link").addEventListener("click", (e) => { e.preventDefault(); $("submit-link").textContent = "Survey link coming in Q1"; });
+
+  const src = DATA.source || {};
+  $("draftbar").textContent = `Working draft · Data from catalog sheet ${src.version || ""} · Some details are still being verified`;
+  $("built").textContent = `${W.length} workflows · ${ROWS.length} organism options · built ${DATA.generated}${src.version ? ` from catalog sheet ${src.version}` : ""}`;
+  render(); route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+# Mirrors the contributor survey (sheet field codes in brackets) so both routes collect the same data.
+name: Add a workflow
+description: Suggest a bioinformatics workflow for the NE-PGCoE Workflow Catalog (about 5 minutes).
+title: "[Add workflow]: "
+labels: ["new-entry", "needs-curation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! A curator adds your answers to the catalog and assigns IDs.
+        Answer capability questions once for the whole workflow; we split them by organism.
+  - type: input
+    id: w02
+    attributes:
+      label: "Workflow name [W02]"
+    validations:
+      required: true
+  - type: input
+    id: w03
+    attributes:
+      label: "Developer organization [W03]"
+    validations:
+      required: true
+  - type: input
+    id: w04
+    attributes:
+      label: "Repository URL [W04]"
+    validations:
+      required: true
+  - type: input
+    id: w05
+    attributes:
+      label: "Documentation URL [W05]"
+  - type: checkboxes
+    id: w06
+    attributes:
+      label: "Where can it run? [W06]"
+      options:
+        - label: "Terra"
+        - label: "Local workstation (command line)"
+        - label: "Local workstation (GUI)"
+        - label: "HPC (SLURM or other scheduler)"
+        - label: "AWS"
+        - label: "Google Cloud (not Terra)"
+        - label: "Azure"
+        - label: "Galaxy"
+        - label: "Web browser (no install)"
+  - type: dropdown
+    id: w07
+    attributes:
+      label: "Does it need internet access while running? [W07]"
+      options: ["Yes", "No", "Optional"]
+    validations:
+      required: true
+  - type: textarea
+    id: c02
+    attributes:
+      label: "Organisms supported [C02]"
+      description: "One per line. Use 'Organism-agnostic' for metagenomic workflows."
+    validations:
+      required: true
+  - type: checkboxes
+    id: c03
+    attributes:
+      label: "Sample types [C03]"
+      options:
+        - label: "Isolate (pure culture)"
+        - label: "Primary clinical specimen"
+        - label: "Wastewater / environmental"
+        - label: "Mixed / metagenomic"
+        - label: "Not applicable (downstream analysis)"
+  - type: checkboxes
+    id: c04
+    attributes:
+      label: "Library strategies [C04]"
+      options:
+        - label: "Shotgun WGS"
+        - label: "Tiled amplicon"
+        - label: "Hybrid capture / targeted panel"
+        - label: "Single-target amplicon (e.g., 16S, ITS)"
+        - label: "Shotgun metagenomic"
+        - label: "Metatranscriptomic"
+        - label: "Not applicable (downstream analysis)"
+  - type: checkboxes
+    id: c05
+    attributes:
+      label: "Sequencing platforms [C05]"
+      options:
+        - label: "Illumina"
+        - label: "Oxford Nanopore (ONT)"
+        - label: "Clear Labs"
+        - label: "PacBio"
+        - label: "Ion Torrent"
+        - label: "Element"
+        - label: "MGI / Complete Genomics"
+        - label: "Not applicable (downstream analysis)"
+  - type: checkboxes
+    id: c06
+    attributes:
+      label: "Input data types [C06]"
+      options:
+        - label: "Paired-end short read"
+        - label: "Single-end short read"
+        - label: "Long read"
+        - label: "Hybrid (short + long)"
+        - label: "Assembly / consensus FASTA"
+        - label: "Multi-sequence set or alignment (FASTA)"
+        - label: "Phylogenetic tree"
+        - label: "Metadata / epidemiological tables"
+        - label: "Typing or analysis results (tabular)"
+  - type: checkboxes
+    id: c07
+    attributes:
+      label: "Analysis outputs [C07]"
+      options:
+        - label: "QC"
+        - label: "De novo assembly"
+        - label: "Consensus genome"
+        - label: "Species identification"
+        - label: "MLST"
+        - label: "cgMLST / wgMLST"
+        - label: "Subtype / serotype / other typing scheme"
+        - label: "Variant calling"
+        - label: "Within-host (intra-host) variant calling"
+        - label: "Lineage / clade assignment"
+        - label: "Variant / lineage abundance (mixed samples)"
+        - label: "AMR genotype"
+        - label: "Virulence genes"
+        - label: "Stress response genes"
+        - label: "Plasmid / mobile genetic element detection"
+        - label: "Drug-resistance prediction"
+        - label: "Phylogeny / SNP distance"
+        - label: "Bayesian phylogenetics / phylodynamics"
+        - label: "Genomic cluster detection / monitoring"
+        - label: "Transmission inference"
+        - label: "Phylogeny-trait association"
+        - label: "Sequence subsampling / sampling design"
+        - label: "Data integration / linkage"
+        - label: "Metagenomic classification"
+  - type: textarea
+    id: c08
+    attributes:
+      label: "Known limitations [C08]"
+      description: "e.g., handling of Ns, low coverage, mixed infections, primer dropouts, recombinants, novel subtypes. Note if a limitation applies to one organism only."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Anything else?"
