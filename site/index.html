@@ -571,7 +571,7 @@ sup a { text-decoration: none; font-weight: 700; font-size: 11px; }
   $("scrim").addEventListener("click", () => closePanel(true));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("panel").classList.contains("open")) closePanel(true); });
   window.addEventListener("hashchange", route);
-  $("submit-link").addEventListener("click", (e) => { e.preventDefault(); $("submit-link").textContent = "Survey link coming in Q1"; });
+  $("submit-link").addEventListener("click", (e) => { e.preventDefault(); $("submit-link").textContent = "Survey link coming in Q1 2027"; });
 
   const src = DATA.source || {};
   $("draftbar").textContent = `Working draft · Data from catalog sheet ${src.version || ""} · Some details are still being verified`;
