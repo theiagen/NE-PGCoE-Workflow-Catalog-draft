@@ -1,7 +1,7 @@
 # NE-PGCoE Workflow Catalog
 
 A guided, searchable catalog that helps public health labs find open-source bioinformatics
-workflows that fit their organism, sequencing data and computing setup.
+workflows that fit their organism, sequencing data, and computing setup.
 
 > **Status:** working draft built from catalog sheet **v0.8 (draft)**.
 
@@ -12,7 +12,7 @@ here as CSV files; the site is built from them.
 
 | File | Sheet tab | Notes |
 |---|---|---|
-| `data/catalog.csv` | Catalog | One row per workflow x organism (capability). Columns matched by field code (W01-W07, C01-C08) |
+| `data/catalog.csv` | Catalog | One row per workflow x organism (capability). Columns matched by field code (W01-W07, C01-C09) |
 | `data/vocabularies.csv` | Controlled Vocabularies | Allowed values for every multi-select field |
 | `data/references.csv` | References | `[R#]` citations become linked footnotes on the site |
 | `data/organisms.csv` | Organisms | Controlled list for C02: group (Virus / Bacteria / Any), general-purpose flag, NCBI Taxonomy ID |
@@ -51,6 +51,10 @@ open site/index.html              # or double-click; no server needed
 ## The site
 
 `site/index.html` is plain HTML/CSS/JS reading `site/catalog.js`; no frameworks, so it can move to pgcoe.github.io as-is. Users fill in one sentence ("I have [pathogen] data from [platform] and want to run it [where]"), can search by name or tool, and pick what they need the workflow to do. More filters cover sample type, library strategy, input data type, developer and offline use. Each workflow opens a detail panel with one expandable row per organism: outputs, sample types, library strategies, tools, known limitations and linked sources.
+
+## Ownership
+
+Built by Theiagen Genomics for the Northeast PGCoE (Annotated Pipeline Inventory project). The catalog will be handed off to PGCoE at the end of the project; see [CONTRIBUTING.md](CONTRIBUTING.md) for how workflows are added and how the catalog is updated.
 
 ## Disclaimer
 
