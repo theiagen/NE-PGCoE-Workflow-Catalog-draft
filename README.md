@@ -1,7 +1,7 @@
 # NE-PGCoE Workflow Catalog
 
 A guided, searchable catalog that helps public health labs find open-source bioinformatics
-workflows that fit their organism, sequencing data, and computing setup.
+workflows that fit their organism, sequencing data and computing setup.
 
 > **Status:** working draft built from catalog sheet **v0.8 (draft)**.
 
@@ -56,7 +56,11 @@ open site/index.html              # or double-click; no server needed
 
 Built by Theiagen Genomics for the Northeast PGCoE (Annotated Pipeline Inventory project). The catalog will be handed off to PGCoE at the end of the project; see [CONTRIBUTING.md](CONTRIBUTING.md) for how workflows are added and how the catalog is updated.
 
+## License
+
+Licensed under the GNU General Public License v3.0 (GPL-3.0); see the LICENSE file in this repository. Each workflow listed in the catalog keeps its own license.
+
 ## Disclaimer
 
 Listing is not an endorsement. Labs must review source documentation and validate any workflow
-before clinical or public health use to ensure it is fit-for-purpose.
+before clinical or public health use to demonstrate it is fit-for-purpose.
