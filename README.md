@@ -3,7 +3,7 @@
 A guided, searchable catalog that helps public health labs find open-source bioinformatics
 workflows that fit their organism, sequencing data and computing setup.
 
-> **Status:** working draft built from catalog sheet **v0.8 (draft)**. Not yet reviewed by the PGCoE benchmarking WG.
+> **Status:** working draft built from catalog sheet **v0.8 (draft)**.
 
 ## Where the data comes from
 
@@ -55,4 +55,4 @@ open site/index.html              # or double-click; no server needed
 ## Disclaimer
 
 Listing is not an endorsement. Labs must review source documentation and validate any workflow
-before clinical or public health use.
+before clinical or public health use to ensure it is fit-for-purpose.
