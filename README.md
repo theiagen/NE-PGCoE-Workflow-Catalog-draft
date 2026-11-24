@@ -1,4 +1,5 @@
 # NE-PGCoE Workflow Catalog
+**View the catalog:** https://theiagen.github.io/NE-PGCoE-Workflow-Catalog-draft/
 
 A guided, searchable catalog that helps public health labs find open-source bioinformatics
 workflows that fit their organism, sequencing data and computing setup.
